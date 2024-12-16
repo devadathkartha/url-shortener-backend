@@ -38,12 +38,12 @@ app.post('/shorten',async(req,res)=>{
     try{
         let existingurl=await Url.findOne({longUrl});
         if(existingurl){
-            return res.json({shortUrl:`http://localhost:8080/${existingurl.shortUrl}`});
+            return res.json({shortUrl:`https://url-shortener-backend-7zqy.onrender.com/${existingurl.shortUrl}`});
         }
         const shortUrl=await generateShortUrl();
         const newUrl=new Url({longUrl,shortUrl});
         await newUrl.save();
-        res.json({ shortUrl: `http://localhost:8080/${shortUrl}` });
+        res.json({ shortUrl: `https://url-shortener-backend-7zqy.onrender.com/${shortUrl}` });
     }
     catch(err){
         res.status(500).json({ message: 'Server Error',error});
@@ -105,7 +105,7 @@ app.get('/details/:url',async (req,res) => {
       
       res.json({ 
         longUrl: urlRecord.longUrl, 
-        shortUrl: `http://localhost:3000/${urlRecord.shortUrl}`, 
+        shortUrl: `https://url-shortener-backend-7zqy.onrender.com/${urlRecord.shortUrl}`, 
         totalHits: urlRecord.hitCnt
       });
     } 
@@ -120,7 +120,7 @@ app.get('/top/:number',async(req,res)=>{
         const tophiturls=await Url.find().sort({hitCnt:-1}).limit(Number(number));
         res.json(tophiturls.map(url=>({
             longUrl: url.longUrl, 
-            shortUrl: `http://localhost:3000/${url.shortUrl}`, 
+            shortUrl: `https://url-shortener-backend-7zqy.onrender.com/${url.shortUrl}`, 
             totalHits: url.hitCnt
         })));
     }
@@ -128,4 +128,3 @@ app.get('/top/:number',async(req,res)=>{
         res.status(500).json({ message: 'Server Error', error });
     }
 });
-
